@@ -1,0 +1,28 @@
+<div class="input-names">
+  <label for="names" class="visually-hidden">Enter names (one per line)</label>
+  <textarea
+    id="names"
+    rows="10"
+    aria-label="Enter names, one per line"
+    placeholder="Enter one name per line or paste multiple lines"
+    class="names-textarea"
+    [field]="form.names"
+  >
+  </textarea>
+
+  <div class="controls">
+    <button type="button" (click)="setExample()">Insert example names</button>
+    <div class="hint">Blank lines are ignored; names are trimmed.</div>
+  </div>
+
+  @if (names().length > 0) {
+  <div class="parsed-names">
+    <h4>Parsed names ({{ names().length }})</h4>
+    <ul>
+      @for (n of names(); track n) {
+      <li>{{ n }}</li>
+      }
+    </ul>
+  </div>
+  }
+</div>
