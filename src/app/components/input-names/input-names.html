@@ -1,10 +1,10 @@
 <div class="input-names">
-  <label for="names" class="visually-hidden">Enter names (one per line)</label>
+  <label for="names">Enter names (one per line)</label>
   <textarea
     id="names"
     rows="10"
     aria-label="Enter names, one per line"
-    placeholder="Enter one name per line or paste multiple lines"
+    placeholder="Example:&#10;Player 1&#10;Player 2"
     class="names-textarea"
     [field]="form.names"
   >
@@ -18,11 +18,11 @@
   @if (names().length > 0) {
   <div class="parsed-names">
     <h4>Parsed names ({{ names().length }})</h4>
-    <ul>
+    <div class="flex-row">
       @for (n of names(); track n) {
-      <li>{{ n }}</li>
+      <app-name-plate [name]="n" />
       }
-    </ul>
+    </div>
   </div>
   }
 </div>

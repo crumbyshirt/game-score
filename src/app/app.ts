@@ -6,7 +6,6 @@ import { InputNames } from './components/input-names/input-names';
   selector: 'app-root',
   imports: [RouterOutlet, InputNames],
   templateUrl: './app.html',
-  styleUrl: './app.css',
 })
 export class App {
   protected readonly title = signal('game-score');

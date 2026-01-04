@@ -1,5 +1,6 @@
 import { Component, computed, signal } from '@angular/core';
 import { Field, form } from '@angular/forms/signals';
+import { NamePlate } from '../name-plate/name-plate';
 
 /**
  * Allows users to input names. The names are entered into a large text area,
@@ -7,13 +8,13 @@ import { Field, form } from '@angular/forms/signals';
  */
 @Component({
   selector: 'app-input-names',
-  imports: [Field],
+  imports: [Field, NamePlate],
   templateUrl: './input-names.html',
   styleUrls: ['./input-names.css'],
 })
 export class InputNames {
   /** Signal holding the raw text input for names. */
-  protected text = signal({ names: 'Enter names, one per line' });
+  protected text = signal({ names: '' });
   /** Form group for the names input. */
   protected form = form(this.text);
 
