@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 /**
  * The name plate component displays a decorative name plate.
@@ -9,6 +9,7 @@ import { Component, input } from '@angular/core';
   imports: [],
   templateUrl: './name-plate.html',
   styleUrl: './name-plate.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NamePlate {
   /** The name to display on the name plate. */

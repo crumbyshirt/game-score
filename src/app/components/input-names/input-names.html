@@ -10,15 +10,10 @@
   >
   </textarea>
 
-  <div class="controls">
-    <button type="button" (click)="setExample()">Insert example names</button>
-    <div class="hint">Blank lines are ignored; names are trimmed.</div>
-  </div>
-
   @if (names().length > 0) {
   <div class="parsed-names">
-    <h4>Parsed names ({{ names().length }})</h4>
-    <div class="flex-row">
+    <h4>Example Name Display ({{ names().length }})</h4>
+    <div class="flex-row name-row" #nameRow>
       @for (n of names(); track n) {
       <app-name-plate [name]="n" />
       }

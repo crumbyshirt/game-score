@@ -1,0 +1,7 @@
+<section aria-labelledby="active-game-heading" class="active-game">
+  <h1 id="active-game-heading">Active Game</h1>
+  <p>Game view placeholder. Routing is configured.</p>
+  @for(player of appStateSvc.players(); track player.name) {
+  <app-name-plate [name]="player.name" />
+  }
+</section>
