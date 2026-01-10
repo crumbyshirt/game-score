@@ -1,5 +1,12 @@
+:host {
+  display: inline-flex;
+}
+
 .name-plate {
+  flex: 1;
   margin: 0.33rem;
   width: 6.125rem;
+  height: 4.5rem;
   padding: 0.67rem;
+  box-sizing: border-box;
 }
