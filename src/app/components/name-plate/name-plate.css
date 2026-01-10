@@ -6,7 +6,11 @@
   flex: 1;
   margin: 0.33rem;
   width: 6.125rem;
-  height: 4.5rem;
-  padding: 0.67rem;
+  padding: 0.33rem;
   box-sizing: border-box;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
