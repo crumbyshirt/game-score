@@ -13,19 +13,24 @@ import { FormField, form } from '@angular/forms/signals';
 })
 export class GridBox {
   /** Starting value for the gridbox to display */
-  value = input<number | null>(null);
+  value = input.required<number | null>();
 
   /** Emits the number value of the score when it changes */
-  score = output<number>();
+  score = output<number | null>();
 
   /** Signal to track the changed score as a string for the input field */
-  private changedScore = signal<string>(this.value()?.toString() || '');
+  private changedScore = signal<string>('');
 
   /** Form group for the score input */
   protected scoreEdit = form(this.changedScore);
 
   constructor() {
     effect(() => {
+      this.changedScore.set(this.value()?.toString() || '');
+    });
+
+    effect(() => {
+      console.count('grid-box score effect called');
       this.onScoreChange();
     });
   }
@@ -35,9 +40,10 @@ export class GridBox {
    */
   private onScoreChange() {
     console.log('Score changed to:', this.changedScore());
-    if (this.changedScore() === '') return;
+    // if (this.changedScore() === '') this.changedScore.set('');
     if (isNaN(Number(this.changedScore()))) return;
 
-    this.score.emit(Number(this.changedScore()) || 0);
+    console.log('Emitting score:', Number(this.changedScore()));
+    this.score.emit(Number(this.changedScore()) || null);
   }
 }

@@ -31,16 +31,20 @@ export class ScoreGrid {
         }
       }
     }
-    // return empty array when no rounds
-    return max === 0 ? [] : Array.from({ length: max }, (_, i) => i + 1);
+    return Array.from({ length: max }, (_, i) => i + 1);
   });
 
-  scoreUpdate(player: { name: string; score?: Map<number, number> }, round: number, score: number) {
+  scoreUpdate(
+    player: { name: string; score?: Map<number, number | null> },
+    round: number,
+    score: number | null,
+  ): void {
     if (!player.score) {
       player.score = new Map<number, number>();
     }
     player.score.set(round, score);
     // Trigger the signal update by creating a new Map reference
     this.players.set(new Map(this.players()));
+    console.log(`Updated score for ${player.name}, round ${round}: ${score}`);
   }
 }
