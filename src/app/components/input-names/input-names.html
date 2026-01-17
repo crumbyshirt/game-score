@@ -2,22 +2,22 @@
   <label for="names">Enter names (one per line)</label>
   <textarea
     id="names"
-    rows="10"
+    rows="7"
     aria-label="Enter names, one per line"
     placeholder="Example:&#10;Player 1&#10;Player 2"
     class="names-textarea"
-    [field]="form.names"
+    [formField]="form.names"
   >
   </textarea>
 
   @if (names().length > 0) {
-  <div class="parsed-names">
-    <h4>Example Name Display ({{ names().length }})</h4>
-    <div class="flex-row name-row" #nameRow>
-      @for (n of names(); track n) {
-      <app-name-plate [name]="n" />
-      }
+    <div class="parsed-names">
+      <h4>Example Name Display ({{ names().length }})</h4>
+      <div class="flex-row name-row" #nameRow>
+        @for (n of names(); track $index) {
+          <app-name-plate [name]="n" />
+        }
+      </div>
     </div>
-  </div>
   }
 </div>

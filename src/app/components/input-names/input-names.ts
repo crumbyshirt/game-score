@@ -8,7 +8,9 @@ import {
   signal,
   ViewChild,
 } from '@angular/core';
-import { Field, form } from '@angular/forms/signals';
+import { form, FormField } from '@angular/forms/signals';
+import { isEqual } from 'lodash';
+import { Player } from '../../models/Player';
 import { AppState } from '../../service/app-state/app-state';
 import { NamePlate } from '../name-plate/name-plate';
 
@@ -18,7 +20,7 @@ import { NamePlate } from '../name-plate/name-plate';
  */
 @Component({
   selector: 'app-input-names',
-  imports: [Field, NamePlate],
+  imports: [FormField, NamePlate],
   templateUrl: './input-names.html',
   styleUrls: ['./input-names.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -36,24 +38,26 @@ export class InputNames {
   /** Form group for the names input. */
   protected form = form(this.text);
 
-  /** Computed signal that returns an array of trimmed, non-empty names. */
+  /** Computed signal that returns an array of trimmed, non-empty, unique names. */
   protected names = computed(() => {
     const raw = this.form().controlValue().names as string;
-    return (raw ?? '')
-      .split(/\r?\n/)
-      .map((n) => n.trim())
-      .filter((n) => n.length > 0);
+    return Array.from(
+      new Set(
+        (raw ?? '')
+          .split(/\r?\n/)
+          .map((n) => n.trim())
+          .filter((n) => n.length > 0),
+      ),
+    );
   });
 
   @ViewChild('nameRow', { static: false, read: ElementRef })
   protected nameRow!: ElementRef<HTMLElement>;
 
   constructor() {
-    // When the `names` signal changes, scroll the container to the right.
     effect(() => {
-      const list = this.names();
-      // just overwrite the players list until that is not good enough
-      this.appStateSvc.players.set(list.map((name) => ({ name })));
+      console.count('names effect called');
+      this.updateAppStateNames(this.names(), this.appStateSvc.players());
 
       // Access the element only when available (after view init).
       const el = this.nameRow?.nativeElement;
@@ -61,7 +65,30 @@ export class InputNames {
         // Scroll to the far right smoothly.
         el.scrollTo({ left: el.scrollWidth, behavior: 'smooth' });
       }
-      return list;
     });
+  }
+
+  /**
+   * Updates the app state with the new list of names.
+   * @param inputList list of names from the user input
+   * @param current player list in the app state
+   */
+  private updateAppStateNames(inputList: string[], current: Player[]) {
+    const existingByName = new Map(current.map((p) => [p.name, p]));
+    const merged: typeof current = [];
+
+    for (const name of inputList) {
+      const existing = existingByName.get(name);
+      if (existing) {
+        merged.push(existing);
+      } else {
+        merged.push({ name, score: new Map<number, number>() });
+      }
+    }
+
+    // Deep equality check: only update if the players list actually changed
+    if (!isEqual(current, merged)) {
+      this.appStateSvc.players.set(merged);
+    }
   }
 }
