@@ -20,7 +20,7 @@ export class ScoreGrid {
     console.count('rounds computed called');
     const players = this.players();
     let max = 1;
-    for (const p of players) {
+    for (const p of players.values()) {
       const map = p.score;
       if (map) {
         for (const k of map.keys()) {
@@ -40,6 +40,7 @@ export class ScoreGrid {
       player.score = new Map<number, number>();
     }
     player.score.set(round, score);
-    this.players.set([...this.players()]);
+    // Trigger the signal update by creating a new Map reference
+    this.players.set(new Map(this.players()));
   }
 }

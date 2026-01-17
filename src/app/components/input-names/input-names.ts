@@ -30,8 +30,7 @@ export class InputNames {
 
   /** Signal holding the raw text input for names. */
   protected text = signal({
-    names: this.appStateSvc
-      .players()
+    names: Array.from(this.appStateSvc.players().values())
       .map((p) => p.name)
       .join('\n'),
   });
@@ -71,22 +70,21 @@ export class InputNames {
   /**
    * Updates the app state with the new list of names.
    * @param inputList list of names from the user input
-   * @param current player list in the app state
+   * @param current player map in the app state
    */
-  private updateAppStateNames(inputList: string[], current: Player[]) {
-    const existingByName = new Map(current.map((p) => [p.name, p]));
-    const merged: typeof current = [];
+  private updateAppStateNames(inputList: string[], current: Map<string, Player>) {
+    const merged = new Map<string, Player>();
 
     for (const name of inputList) {
-      const existing = existingByName.get(name);
+      const existing = current.get(name);
       if (existing) {
-        merged.push(existing);
+        merged.set(name, existing);
       } else {
-        merged.push({ name, score: new Map<number, number>() });
+        merged.set(name, { name, score: new Map<number, number>() });
       }
     }
 
-    // Deep equality check: only update if the players list actually changed
+    // Deep equality check: only update if the players map actually changed
     if (!isEqual(current, merged)) {
       this.appStateSvc.players.set(merged);
     }

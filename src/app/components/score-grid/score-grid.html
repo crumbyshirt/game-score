@@ -2,7 +2,7 @@
   <!-- Header row: player name plates -->
   <div class="score-grid__header">
     <div class="score-grid__nameplate-header grid-box-width" aria-hidden="true"></div>
-    @for (p of players(); track p.name) {
+    @for (p of players().values(); track p.name) {
     <app-name-plate [name]="p.name" class="score-grid__nameplate"></app-name-plate>
     }
   </div>
@@ -12,7 +12,7 @@
     @for (r of rounds(); track r) {
     <div class="score-grid__row" role="row">
       <div class="score-grid__row-label grid-box-width">Round {{ r }}</div>
-      @for (p of players(); track p.name) {
+      @for (p of players().values(); track p.name) {
       <app-grid-box
         [value]="p.score?.get(r) ?? null"
         (score)="scoreUpdate(p, r, $event)"

@@ -9,13 +9,15 @@ import { BrowserStorage } from '../browser-storage/browser-storage';
 export class AppState {
   private browserStorageSvc = inject(BrowserStorage);
 
-  /** List of players
+  /** Map of players by name
    * Default players are provided for first-time users
    */
-  readonly players = signal<Player[]>([
-    { name: 'Player 1', score: new Map<number, number>() },
-    { name: 'Player 2', score: new Map<number, number>() },
-  ]);
+  readonly players = signal<Map<string, Player>>(
+    new Map([
+      ['Player 1', { name: 'Player 1', score: new Map<number, number>() }],
+      ['Player 2', { name: 'Player 2', score: new Map<number, number>() }],
+    ])
+  );
 
   constructor() {
     this.loadPlayers();
