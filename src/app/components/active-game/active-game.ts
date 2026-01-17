@@ -1,16 +1,11 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { AppState } from '../../service/app-state/app-state';
-import { NamePlate } from '../name-plate/name-plate';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ScoreGrid } from '../score-grid/score-grid';
 
 @Component({
   selector: 'app-active-game',
   templateUrl: './active-game.html',
   styleUrls: ['./active-game.css'],
-  imports: [NamePlate],
+  imports: [ScoreGrid],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ActiveGame {
-  protected appStateSvc = inject(AppState);
-
-  protected players = this.appStateSvc;
-}
+export class ActiveGame {}

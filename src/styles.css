@@ -1,5 +1,18 @@
-/* Global styles*/
+/* Global styles */
+:root {
+  --gap: 0.33rem;
+  --muted: #777;
+  --row-label-width: 120px;
+}
+
 .flex-row {
   display: flex;
   flex-direction: row;
+  gap: var(--gap);
+}
+
+/** Grid box for score grid. This is intended for setting anything in a grid box to a specific width */
+.grid-box-width {
+  box-sizing: border-box;
+  width: 6.125rem;
 }

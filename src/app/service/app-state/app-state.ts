@@ -13,8 +13,8 @@ export class AppState {
    * Default players are provided for first-time users
    */
   readonly players = signal<Player[]>([
-    { name: 'Player 1', score: 0 },
-    { name: 'Player 2', score: 0 },
+    { name: 'Player 1', score: new Map<number, number>() },
+    { name: 'Player 2', score: new Map<number, number>() },
   ]);
 
   constructor() {
@@ -27,7 +27,7 @@ export class AppState {
 
   /** Loads players from browser storage */
   loadPlayers(): void {
-    const storedPlayers = this.browserStorageSvc.retrievePlayers<Player[]>();
+    const storedPlayers = this.browserStorageSvc.retrievePlayers();
     if (storedPlayers) {
       this.players.set(storedPlayers);
     }

@@ -1,0 +1,33 @@
+:root {
+  --grid-border-default: #444444; /* dark grey */
+  --grid-border-active: #0b8457; /* dark green */
+  --grid-focus-ring: rgba(11, 132, 87, 0.12);
+}
+
+.grid-box {
+  display: inline-block;
+}
+
+.grid-box__input {
+  width: 100%;
+  min-width: 72px;
+  height: 100%;
+  box-sizing: border-box;
+  border: 2px solid var(--grid-border-default);
+  border-radius: 6px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  outline: none;
+  transition: border-color 120ms ease, box-shadow 120ms ease;
+}
+
+.grid-box__input:focus,
+.grid-box__input:focus-visible {
+  border-color: var(--grid-border-active);
+  box-shadow: 0 0 0 4px var(--grid-focus-ring);
+}
+
+.grid-box__input::placeholder {
+  color: #999;
+}

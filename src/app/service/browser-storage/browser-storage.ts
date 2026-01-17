@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Player } from '../../models/Player';
 
 @Injectable({
   providedIn: 'root',
@@ -10,16 +11,35 @@ export class BrowserStorage {
    * Saves to local storage
    * @param value object to store
    */
-  storePlayers(value: object): void {
-    localStorage.setItem(this.PLAYERS_KEY, JSON.stringify(value));
+  // storePlayers(value: object): void {
+  //   localStorage.setItem(this.PLAYERS_KEY, JSON.stringify(value));
+  // }
+
+  storePlayers(value: Player[]): void {
+    console.count('storePlayers called');
+    const convertedPlayers = value.map((player) => {
+      const score = Object.fromEntries(player.score || new Map<number, number>());
+      return { ...player, score };
+    });
+
+    localStorage.setItem(this.PLAYERS_KEY, JSON.stringify(convertedPlayers));
   }
 
   /**
    * Retrieves playersfrom local storage
    */
-  retrievePlayers<T>(): T | null {
+  retrievePlayers() {
+    console.count('retrievePlayers called');
     const data = localStorage.getItem(this.PLAYERS_KEY);
-    return data ? JSON.parse(data) : null;
+    const serialized = data ? JSON.parse(data) : null;
+    if (!serialized) {
+      return null;
+    }
+    const players: Player[] = serialized.map((player: { score: string }) => ({
+      ...player,
+      score: new Map(Object.entries(player.score || {})),
+    }));
+    return players;
   }
 
   /**

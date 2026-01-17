@@ -1,5 +1,7 @@
 :host {
   display: inline-flex;
+  width: 100%;
+  height: 100%;
 }
 
 .name-plate {
@@ -7,12 +9,12 @@
   box-sizing: border-box;
   display: flex;
   flex: 1;
+  height: 100%;
   height: 4.5rem;
   justify-content: center;
-  margin: 0.33rem;
   overflow: hidden;
   padding: 0.33rem;
-  width: 6.125rem;
+  width: 100%;
 }
 
 .name-content {
