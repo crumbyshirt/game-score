@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { AppState } from '../../service/app-state/app-state';
 import { GridBox } from '../grid-box/grid-box';
 import { NamePlate } from '../name-plate/name-plate';
@@ -15,11 +15,14 @@ export class ScoreGrid {
   /** The players to display in the grid */
   players = inject(AppState).players;
 
+  /** Track the minimum number of rounds to display */
+  minRounds = signal(1);
+
   /** Compute the list of rounds from the players' score maps (1-based round numbers) */
   rounds = computed(() => {
     console.count('rounds computed called');
     const players = this.players();
-    let max = 1;
+    let max = this.minRounds();
     for (const p of players.values()) {
       const map = p.score;
       if (map) {
@@ -46,5 +49,9 @@ export class ScoreGrid {
     // Trigger the signal update by creating a new Map reference
     this.players.set(new Map(this.players()));
     console.log(`Updated score for ${player.name}, round ${round}: ${score}`);
+  }
+
+  addRound(): void {
+    this.minRounds.set(this.rounds().length + 1);
   }
 }

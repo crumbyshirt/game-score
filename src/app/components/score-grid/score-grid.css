@@ -4,13 +4,18 @@
 }
 
 /* Header and body are separate grid rows; columns flow via grid-auto-columns */
-.score-grid__header,
-.score-grid__body {
+.score-grid__header {
   display: grid;
   grid-auto-flow: column;
   grid-auto-columns: 1fr;
   gap: var(--gap);
   align-items: center;
+}
+
+.score-grid__body {
+  display: grid;
+  grid-auto-flow: row;
+  gap: var(--gap);
 }
 
 .score-grid__corner {
