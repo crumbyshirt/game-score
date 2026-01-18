@@ -1,0 +1,39 @@
+:host {
+  display: block;
+  position: sticky;
+  bottom: 0;
+  background-color: var(--pico-background-color, #fff);
+  border-top: 1px solid var(--pico-muted-border-color, #ccc);
+  padding-top: 10px;
+  padding-bottom: 10px;
+  z-index: 100;
+}
+
+.total-score-row {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  gap: var(--gap);
+  align-items: center;
+}
+
+.total-label {
+  font-weight: bold;
+  padding-left: 6px;
+}
+
+.player-total {
+  display: flex;
+  justify-content: center;
+}
+
+.player-score {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+@media (max-width: 480px) {
+  .total-score-row {
+    grid-auto-columns: minmax(56px, 1fr);
+  }
+}

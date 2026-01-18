@@ -1,0 +1,8 @@
+<div class="total-score-row">
+  <div class="total-label grid-box-width">TOTALS</div>
+  @for (t of totals(); track t.name) {
+    <div class="player-total">
+      <span class="player-score">{{ t.total }}</span>
+    </div>
+  }
+</div>
