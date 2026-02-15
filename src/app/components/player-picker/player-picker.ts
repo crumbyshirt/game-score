@@ -43,10 +43,11 @@ export class PlayerPicker {
     });
   }
 
-  /** Sets the animation mode */
+  /** Sets the animation mode, abandoning any in-progress animation */
   setMode(mode: AnimationMode): void {
     this.animationMode.set(mode);
     this.winner.set(null);
+    this.isSpinning.set(false);
   }
 
   /** Triggers the spin animation */
