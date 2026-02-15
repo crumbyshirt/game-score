@@ -1,14 +1,30 @@
+<nav class="app-nav container-fluid" aria-label="Main navigation">
+  <ul>
+    <li>
+      <strong>{{ title() }}</strong>
+    </li>
+  </ul>
+  <ul class="nav-links">
+    <li>
+      <a routerLink="/players" routerLinkActive="active" ariaCurrentWhenActive="page">
+        <span class="nav-icon" aria-hidden="true">&#9998;</span>
+        <span class="nav-label">Players</span>
+      </a>
+    </li>
+    <li>
+      <a routerLink="/game" routerLinkActive="active" ariaCurrentWhenActive="page">
+        <span class="nav-icon" aria-hidden="true">&#127922;</span>
+        <span class="nav-label">Game</span>
+      </a>
+    </li>
+    <li>
+      <a routerLink="/picker" routerLinkActive="active" ariaCurrentWhenActive="page">
+        <span class="nav-icon" aria-hidden="true">&#127919;</span>
+        <span class="nav-label">Picker</span>
+      </a>
+    </li>
+  </ul>
+</nav>
 <main class="container-fluid">
-  <nav>
-    <ul>
-      <li>
-        <strong>{{ title() }}</strong>
-      </li>
-    </ul>
-    <ul>
-      <li><a routerLink="/players">Players</a></li>
-      <li><a routerLink="/game">Game</a></li>
-    </ul>
-  </nav>
   <router-outlet />
 </main>

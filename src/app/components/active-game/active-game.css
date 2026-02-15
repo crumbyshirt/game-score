@@ -4,14 +4,20 @@
 
 .active-game h1 {
   font-size: 1.5rem;
-  margin: 0 0 0.5rem;
+  margin: 0;
 }
 
-.players-container {
+.game-header {
   display: flex;
-  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
 }
 
-.players-container app-name-plate {
-  flex: 1;
+.new-game-btn {
+  padding: 0.25rem 0.75rem;
+  font-size: 0.85rem;
+  margin: 0;
+  white-space: nowrap;
 }

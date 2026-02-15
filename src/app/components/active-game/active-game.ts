@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { AppState } from '../../service/app-state/app-state';
 import { ScoreGrid } from '../score-grid/score-grid';
 import { TotalScore } from '../total-score/total-score';
 
@@ -9,4 +10,12 @@ import { TotalScore } from '../total-score/total-score';
   imports: [ScoreGrid, TotalScore],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ActiveGame {}
+export class ActiveGame {
+  private appStateSvc = inject(AppState);
+
+  confirmNewGame(): void {
+    if (confirm('Reset all scores and start a new game?')) {
+      this.appStateSvc.resetScores();
+    }
+  }
+}

@@ -1,9 +1,11 @@
 <label for="grid-input">
   <input
+    #gridInput
     id="grid-input"
     type="number"
     aria-label="Grid cell"
     placeholder=""
     [formField]="scoreEdit"
+    (focus)="gridInput.scrollIntoView({ block: 'nearest', behavior: 'smooth' })"
   />
 </label>

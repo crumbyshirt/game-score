@@ -11,6 +11,7 @@
 
 .total-score-row {
   display: grid;
+  grid-template-columns: var(--row-label-width, 5rem);
   grid-auto-flow: column;
   grid-auto-columns: 1fr;
   gap: var(--gap);
@@ -18,6 +19,7 @@
 }
 
 .total-label {
+  grid-column: 1;
   font-weight: bold;
   padding-left: 6px;
 }
@@ -34,6 +36,6 @@
 
 @media (max-width: 480px) {
   .total-score-row {
-    grid-auto-columns: minmax(56px, 1fr);
+    grid-template-columns: var(--row-label-width, 4rem);
   }
 }

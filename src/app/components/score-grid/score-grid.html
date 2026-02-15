@@ -1,7 +1,7 @@
 <section class="score-grid" aria-label="Scores grid">
   <!-- Header row: player name plates -->
   <div class="score-grid__header">
-    <div class="score-grid__nameplate-header grid-box-width" aria-hidden="true"></div>
+    <div class="score-grid__corner">Round</div>
     @for (p of players().values(); track p.name) {
       <app-name-plate [name]="p.name" class="score-grid__nameplate"></app-name-plate>
     }
@@ -11,17 +11,17 @@
   <div class="score-grid__body">
     @for (r of rounds(); track r) {
       <div class="score-grid__row" role="row">
-        <div class="score-grid__row-label grid-box-width">Round {{ r }}</div>
+        <div class="score-grid__row-label">{{ r }}</div>
         @for (p of players().values(); track p.name) {
           <app-grid-box
             [value]="p.score?.get(r) ?? null"
             (score)="scoreUpdate(p, r, $event)"
-            class="score-grid__cell grid-box-width"
+            class="score-grid__cell"
           ></app-grid-box>
         }
       </div>
     }
     <div class="score-grid__row" role="row"></div>
-    <button class="grid-box-width" (click)="addRound()">+ Round</button>
+    <button class="score-grid__add-round" (click)="addRound()">+</button>
   </div>
 </section>

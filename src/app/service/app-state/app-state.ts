@@ -34,4 +34,14 @@ export class AppState {
       this.players.set(storedPlayers);
     }
   }
+
+  /** Resets all scores but keeps player names */
+  resetScores(): void {
+    const current = this.players();
+    const reset = new Map<string, Player>();
+    for (const [name] of current) {
+      reset.set(name, { name, score: new Map<number, number>() });
+    }
+    this.players.set(reset);
+  }
 }

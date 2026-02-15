@@ -3,37 +3,48 @@
   gap: var(--gap);
 }
 
-/* Header and body are separate grid rows; columns flow via grid-auto-columns */
-.score-grid__header {
+/* Shared grid layout for header, body rows, and totals:
+   first column is a fixed-width label, remaining columns are equal-width 1fr */
+.score-grid__header,
+.score-grid__row {
   display: grid;
+  grid-template-columns: var(--row-label-width, 5rem);
   grid-auto-flow: column;
   grid-auto-columns: 1fr;
   gap: var(--gap);
   align-items: center;
+}
+
+/* Header row: player name plates — sticks to top when scrolling */
+.score-grid__header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background-color: var(--pico-background-color, #fff);
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
 }
 
 .score-grid__body {
   display: grid;
   grid-auto-flow: row;
   gap: var(--gap);
+  /* Extra bottom padding so the +Round button is never behind the sticky totals bar */
+  padding-bottom: 3rem;
 }
 
 .score-grid__corner {
-  width: var(--row-label-width, 120px); /* reserved corner cell for row labels */
-}
-
-.score-grid__row {
-  display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: 1fr;
-  gap: var(--gap);
-  align-items: center;
+  grid-column: 1;
+  font-weight: 600;
+  padding-left: 6px;
+  font-size: 0.85rem;
+  color: var(--pico-muted-color, var(--muted));
 }
 
 .score-grid__row-label {
-  /* width: var(--row-label-width, 120px); */
+  grid-column: 1;
   font-weight: 600;
-  padding-left: 6px;
+  text-align: center;
 }
 
 .score-grid__nameplate {
@@ -44,9 +55,13 @@
   display: block;
 }
 
+.score-grid__add-round {
+  width: var(--row-label-width, 5rem);
+}
+
 @media (max-width: 480px) {
   .score-grid__header,
-  .score-grid__body {
-    grid-auto-columns: minmax(56px, 1fr);
+  .score-grid__row {
+    grid-template-columns: var(--row-label-width, 4rem);
   }
 }

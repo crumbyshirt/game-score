@@ -1,0 +1,22 @@
+<div class="cards-area">
+  <div class="cards-grid">
+    @for (card of cards(); track $index) {
+      <div
+        class="card"
+        [class.card--flipped]="card.flipped"
+        [class.card--selected]="card.selected"
+        [style.transform]="'translate(' + card.shuffleX + 'px, ' + card.shuffleY + 'px) rotate(' + card.rotation + 'deg)'"
+        [style.z-index]="card.zIndex"
+      >
+        <div class="card__inner">
+          <div class="card__front" [style.background-color]="card.color">
+            <span class="card__name">{{ card.name }}</span>
+          </div>
+          <div class="card__back">
+            <span class="card__pattern" aria-hidden="true">?</span>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</div>
