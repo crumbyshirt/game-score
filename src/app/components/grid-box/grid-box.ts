@@ -30,7 +30,6 @@ export class GridBox {
     });
 
     effect(() => {
-      console.count('grid-box score effect called');
       this.onScoreChange();
     });
   }
@@ -39,11 +38,7 @@ export class GridBox {
    * Handles emitting the score when it changes and is valid.
    */
   private onScoreChange() {
-    console.log('Score changed to:', this.changedScore());
-    // if (this.changedScore() === '') this.changedScore.set('');
     if (isNaN(Number(this.changedScore()))) return;
-
-    console.log('Emitting score:', Number(this.changedScore()));
     this.score.emit(Number(this.changedScore()) || null);
   }
 }

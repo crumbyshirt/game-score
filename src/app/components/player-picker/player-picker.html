@@ -1,0 +1,95 @@
+<section class="player-picker" aria-labelledby="picker-heading">
+  <h1 id="picker-heading">Random Player Picker</h1>
+
+  @if (playerNames().length < 2) {
+    <article class="picker-empty">
+      <p>You need at least 2 players to use the picker.</p>
+      <a routerLink="/players" role="button">Add Players</a>
+    </article>
+  } @else {
+    <!-- Animation mode selector -->
+    <fieldset class="mode-selector" role="radiogroup" aria-label="Animation style">
+      <legend class="visually-hidden">Choose animation style</legend>
+      <label class="mode-option" [class.mode-option--active]="animationMode() === 'wheel'">
+        <input
+          type="radio"
+          name="animation-mode"
+          value="wheel"
+          [checked]="animationMode() === 'wheel'"
+          (change)="setMode('wheel')"
+        />
+        <span>&#127905; Wheel</span>
+      </label>
+      <label class="mode-option" [class.mode-option--active]="animationMode() === 'slot'">
+        <input
+          type="radio"
+          name="animation-mode"
+          value="slot"
+          [checked]="animationMode() === 'slot'"
+          (change)="setMode('slot')"
+        />
+        <span>&#127920; Slots</span>
+      </label>
+      <label class="mode-option" [class.mode-option--active]="animationMode() === 'cards'">
+        <input
+          type="radio"
+          name="animation-mode"
+          value="cards"
+          [checked]="animationMode() === 'cards'"
+          (change)="setMode('cards')"
+        />
+        <span>&#127183; Cards</span>
+      </label>
+    </fieldset>
+
+    <!-- Animation area -->
+    <div class="animation-area">
+      @switch (animationMode()) {
+        @case ('wheel') {
+          <app-spinning-wheel
+            [playerNames]="playerNames()"
+            [spinTrigger]="spinTrigger()"
+            (winnerSelected)="onWinnerSelected($event)"
+          />
+        }
+        @case ('slot') {
+          <app-slot-machine
+            [playerNames]="playerNames()"
+            [spinTrigger]="spinTrigger()"
+            (winnerSelected)="onWinnerSelected($event)"
+          />
+        }
+        @case ('cards') {
+          <app-card-shuffle
+            [playerNames]="playerNames()"
+            [spinTrigger]="spinTrigger()"
+            (winnerSelected)="onWinnerSelected($event)"
+          />
+        }
+      }
+    </div>
+
+    <!-- Spin button -->
+    <button
+      class="spin-button"
+      [disabled]="isSpinning()"
+      (click)="spin()"
+      aria-label="Pick a random player"
+    >
+      @if (isSpinning()) {
+        Picking...
+      } @else {
+        Go!
+      }
+    </button>
+
+    <!-- Winner announcement -->
+    <div role="status" aria-live="polite" aria-atomic="true" class="winner-display">
+      @if (winner(); as name) {
+        <article class="winner-card">
+          <h2>&#127881; {{ name }} &#127881;</h2>
+        </article>
+      }
+    </div>
+  }
+</section>

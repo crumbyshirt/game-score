@@ -1,5 +1,8 @@
 <section aria-labelledby="active-game-heading" class="active-game">
-  <h1 id="active-game-heading">Active Game</h1>
+  <div class="game-header">
+    <h1 id="active-game-heading">Active Game</h1>
+    <button class="outline secondary new-game-btn" (click)="confirmNewGame()">New Game</button>
+  </div>
   <app-score-grid />
   <app-total-score />
 </section>

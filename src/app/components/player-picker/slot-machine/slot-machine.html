@@ -1,0 +1,22 @@
+<div class="slot-container">
+  <div class="slot-frame">
+    <div class="slot-indicator" aria-hidden="true"></div>
+    <div class="slot-window">
+      <div
+        #reel
+        class="slot-reel"
+        [style.transform]="'translateY(-' + reelOffset() + 'px)'"
+      >
+        @for (item of reelItems(); track $index) {
+          <div
+            class="slot-item"
+            [class.slot-item--highlight]="$index === highlightIndex()"
+            [style.background-color]="item.color"
+          >
+            {{ item.name }}
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</div>

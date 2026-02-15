@@ -1,0 +1,62 @@
+.slot-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.slot-frame {
+  position: relative;
+  border: 4px solid var(--pico-primary);
+  border-radius: 0.75rem;
+  overflow: hidden;
+  background: var(--pico-background-color);
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.1);
+  width: 14rem;
+}
+
+.slot-indicator {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  transform: translateY(-50%);
+  height: 56px;
+  border-top: 3px solid var(--pico-primary);
+  border-bottom: 3px solid var(--pico-primary);
+  z-index: 5;
+  pointer-events: none;
+}
+
+.slot-window {
+  height: 168px; /* 3 items visible */
+  overflow: hidden;
+}
+
+.slot-reel {
+  will-change: transform;
+}
+
+.slot-item {
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  padding: 0 0.5rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.slot-item--highlight {
+  animation: slot-flash 0.5s ease-in-out 3;
+}
+
+@keyframes slot-flash {
+  50% {
+    filter: brightness(1.4);
+  }
+}

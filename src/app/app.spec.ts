@@ -1,10 +1,12 @@
 import { TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
 import { App } from './app';
 
 describe('App', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [App],
+      providers: [provideRouter([])],
     }).compileComponents();
   });
 
@@ -20,6 +22,6 @@ describe('App', () => {
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
     // Title is rendered in a <strong> element in the nav
-    expect(compiled.querySelector('strong')?.textContent).toContain('game-score');
+    expect(compiled.querySelector('strong')?.textContent).toContain('Game Score');
   });
 });

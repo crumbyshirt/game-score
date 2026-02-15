@@ -55,7 +55,6 @@ export class InputNames {
 
   constructor() {
     effect(() => {
-      console.count('names effect called');
       this.updateAppStateNames(this.names(), this.appStateSvc.players());
 
       // Access the element only when available (after view init).

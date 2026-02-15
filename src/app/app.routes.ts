@@ -16,6 +16,13 @@ export const routes: Routes = [
     loadComponent: () => import('./components/active-game/active-game').then((m) => m.ActiveGame),
   },
 
+  // Random player picker feature
+  {
+    path: 'picker',
+    loadComponent: () =>
+      import('./components/player-picker/player-picker').then((m) => m.PlayerPicker),
+  },
+
   // Fallback to player input
   { path: '**', redirectTo: 'players' },
 ];

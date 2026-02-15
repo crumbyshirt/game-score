@@ -2,7 +2,7 @@
 :root {
   --gap: 0.33rem;
   --muted: #777;
-  --row-label-width: 120px;
+  --row-label-width: 5rem;
 }
 
 .flex-row {
@@ -11,8 +11,82 @@
   gap: var(--gap);
 }
 
-/** Grid box for score grid. This is intended for setting anything in a grid box to a specific width */
-.grid-box-width {
-  box-sizing: border-box;
-  width: 6.125rem;
+/* ===== Navigation ===== */
+
+/* Desktop: hide icons, show text links horizontally */
+.app-nav .nav-icon {
+  display: none;
+}
+
+.app-nav .nav-links a.active {
+  color: var(--pico-primary);
+  font-weight: 600;
+}
+
+/* Mobile: fixed bottom tab bar */
+@media (max-width: 768px) {
+  nav.app-nav {
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    top: auto !important;
+    z-index: 1000;
+    background: var(--pico-background-color);
+    border-top: 1px solid var(--pico-muted-border-color);
+    padding: 0.25rem 0;
+    margin: 0 !important;
+  }
+
+  /* Hide the brand/title on mobile */
+  nav.app-nav > ul:first-child {
+    display: none !important;
+  }
+
+  nav.app-nav .nav-links {
+    display: flex !important;
+    justify-content: space-evenly !important;
+    align-items: center;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100%;
+  }
+
+  nav.app-nav .nav-links li {
+    list-style: none;
+    flex: 1 1 0;
+    text-align: center;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  nav.app-nav .nav-links a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.15rem;
+    font-size: 0.75rem;
+    text-decoration: none;
+    padding: 0.375rem 0;
+  }
+
+  nav.app-nav .nav-icon {
+    display: block;
+    font-size: 1.4rem;
+  }
+
+  nav.app-nav .nav-links a.active {
+    color: var(--pico-primary);
+    font-weight: 600;
+  }
+
+  /* Prevent content from hiding behind the bottom nav */
+  main.container-fluid {
+    padding-bottom: 4.5rem;
+  }
+
+  :root {
+    --row-label-width: 4rem;
+  }
 }
