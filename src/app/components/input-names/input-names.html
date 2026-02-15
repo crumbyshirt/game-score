@@ -15,7 +15,17 @@
       <h4>Example Name Display ({{ names().length }})</h4>
       <div class="flex-row name-row" #nameRow>
         @for (n of names(); track $index) {
-          <app-name-plate [name]="n" />
+          <app-name-plate
+            [name]="n"
+            draggable="true"
+            [class.dragging]="dragIndex() === $index"
+            [class.drop-target]="dropTargetIndex() === $index"
+            (dragstart)="onDragStart($index, $event)"
+            (dragover)="onDragOver($index, $event)"
+            (dragleave)="onDragLeave()"
+            (dragend)="onDragEnd()"
+            (drop)="onDrop($index, $event)"
+          />
         }
       </div>
     </div>

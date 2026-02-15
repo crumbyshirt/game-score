@@ -50,6 +50,12 @@ export class InputNames {
     );
   });
 
+  /** Index of the name plate currently being dragged */
+  protected dragIndex = signal<number | null>(null);
+
+  /** Index of the drop target position */
+  protected dropTargetIndex = signal<number | null>(null);
+
   @ViewChild('nameRow', { static: false, read: ElementRef })
   protected nameRow!: ElementRef<HTMLElement>;
 
@@ -64,6 +70,63 @@ export class InputNames {
         el.scrollTo({ left: el.scrollWidth, behavior: 'smooth' });
       }
     });
+  }
+
+  /** Called when a drag starts on a name plate */
+  onDragStart(index: number, event: DragEvent): void {
+    this.dragIndex.set(index);
+    if (event.dataTransfer) {
+      event.dataTransfer.effectAllowed = 'move';
+      event.dataTransfer.setData('text/plain', String(index));
+    }
+  }
+
+  /** Called when dragging over another name plate */
+  onDragOver(index: number, event: DragEvent): void {
+    event.preventDefault();
+    if (event.dataTransfer) {
+      event.dataTransfer.dropEffect = 'move';
+    }
+    this.dropTargetIndex.set(index);
+  }
+
+  /** Called when leaving a drag target */
+  onDragLeave(): void {
+    this.dropTargetIndex.set(null);
+  }
+
+  /** Called when drag ends (cancelled or completed) */
+  onDragEnd(): void {
+    this.dragIndex.set(null);
+    this.dropTargetIndex.set(null);
+  }
+
+  /** Called when a name plate is dropped on a new position */
+  onDrop(targetIndex: number, event: DragEvent): void {
+    event.preventDefault();
+    const sourceIndex = this.dragIndex();
+    this.dragIndex.set(null);
+    this.dropTargetIndex.set(null);
+
+    if (sourceIndex === null || sourceIndex === targetIndex) return;
+
+    const reordered = [...this.names()];
+    const [moved] = reordered.splice(sourceIndex, 1);
+    reordered.splice(targetIndex, 0, moved);
+
+    // Update the textarea to reflect the new order
+    this.text.set({ names: reordered.join('\n') });
+
+    // Directly rebuild the players Map in the new order so it persists
+    const current = this.appStateSvc.players();
+    const reorderedMap = new Map<string, Player>();
+    for (const name of reordered) {
+      const existing = current.get(name);
+      if (existing) {
+        reorderedMap.set(name, existing);
+      }
+    }
+    this.appStateSvc.players.set(reorderedMap);
   }
 
   /**

@@ -1,3 +1,24 @@
 .name-row {
   overflow-x: auto;
 }
+
+/* Drag-and-drop styles */
+.name-row app-name-plate {
+  cursor: grab;
+}
+
+.name-row app-name-plate:active {
+  cursor: grabbing;
+}
+
+/* The item being dragged fades out in its original position */
+.name-row app-name-plate.dragging {
+  opacity: 0.3;
+}
+
+/* Visual indicator for the drop target */
+.name-row app-name-plate.drop-target {
+  outline: 2px dashed var(--pico-primary);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
