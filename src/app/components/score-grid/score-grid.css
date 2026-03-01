@@ -3,7 +3,7 @@
   gap: var(--gap);
 }
 
-/* Shared grid layout for header, body rows, and totals:
+/* Shared grid layout for header and body rows:
    first column is a fixed-width label, remaining columns are equal-width 1fr */
 .score-grid__header,
 .score-grid__row {
@@ -15,7 +15,7 @@
   align-items: center;
 }
 
-/* Header row: player name plates — sticks to top when scrolling */
+/* Header row: player name plates — sticks to top of scroll area */
 .score-grid__header {
   position: sticky;
   top: 0;
@@ -29,8 +29,6 @@
   display: grid;
   grid-auto-flow: row;
   gap: var(--gap);
-  /* Extra bottom padding so the +Round button is never behind the sticky totals bar */
-  padding-bottom: 3rem;
 }
 
 .score-grid__corner {
@@ -55,13 +53,14 @@
   display: block;
 }
 
-.score-grid__add-round {
-  width: var(--row-label-width, 5rem);
-}
-
-@media (max-width: 480px) {
+@media (max-width: 768px) {
   .score-grid__header,
   .score-grid__row {
     grid-template-columns: var(--row-label-width, 4rem);
+  }
+
+  /* Reduce name plate height by 40% when scrolled on mobile */
+  .score-grid__header--scrolled {
+    --name-plate-height: 2.7rem;
   }
 }

@@ -1,3 +1,6 @@
 <article class="name-plate" aria-label="Player Name Plate">
+  @if (badge()) {
+    <span class="badge" aria-label="Top scorer">{{ badge() }}</span>
+  }
   <span class="name-content">{{ name() }}</span>
 </article>

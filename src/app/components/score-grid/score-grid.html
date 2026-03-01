@@ -1,13 +1,13 @@
 <section class="score-grid" aria-label="Scores grid">
   <!-- Header row: player name plates -->
-  <div class="score-grid__header">
+  <div class="score-grid__header" [class.score-grid__header--scrolled]="isScrolled()">
     <div class="score-grid__corner">Round</div>
     @for (p of players().values(); track p.name) {
-      <app-name-plate [name]="p.name" class="score-grid__nameplate"></app-name-plate>
+      <app-name-plate [name]="p.name" [badge]="playerBadges().get(p.name) ?? ''" class="score-grid__nameplate"></app-name-plate>
     }
   </div>
 
-  <!-- Body row: one cell per player (score display / editable GridBox) -->
+  <!-- Body: scrollable area with score rows -->
   <div class="score-grid__body">
     @for (r of rounds(); track r) {
       <div class="score-grid__row" role="row">
@@ -21,7 +21,5 @@
         }
       </div>
     }
-    <div class="score-grid__row" role="row"></div>
-    <button class="score-grid__add-round" (click)="addRound()">+</button>
   </div>
 </section>

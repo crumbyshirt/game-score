@@ -1,5 +1,15 @@
+:host {
+  display: block;
+  height: 100%;
+  overflow: hidden;
+}
+
 .active-game {
-  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 0.5rem 1rem 0;
+  overflow: hidden;
 }
 
 .active-game h1 {
@@ -13,6 +23,7 @@
   justify-content: space-between;
   gap: 1rem;
   margin-bottom: 0.5rem;
+  flex-shrink: 0;
 }
 
 .new-game-btn {
@@ -20,4 +31,42 @@
   font-size: 0.85rem;
   margin: 0;
   white-space: nowrap;
+}
+
+/* The score grid scrolls independently */
+.game-scroll-area {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+}
+
+/* Footer: + button and totals — always visible at bottom */
+.game-footer {
+  flex-shrink: 0;
+  border-top: 1px solid var(--pico-muted-border-color, #ccc);
+  background-color: var(--pico-background-color, #fff);
+  padding: 0.5rem 0;
+}
+
+.add-round-btn {
+  width: var(--row-label-width, 5rem);
+  margin-bottom: 0.5rem;
+}
+
+@media (max-width: 768px) {
+  .active-game {
+    padding: 0.5rem 0.5rem 0;
+  }
+
+  .game-header {
+    max-height: 3rem;
+    overflow: hidden;
+    transition: max-height 0.2s ease, opacity 0.2s ease, margin-bottom 0.2s ease;
+  }
+
+  .game-header--hidden {
+    max-height: 0;
+    opacity: 0;
+    margin-bottom: 0;
+  }
 }

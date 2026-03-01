@@ -5,6 +5,28 @@
   --row-label-width: 5rem;
 }
 
+/* Prevent body/html from adding extra scroll */
+html, body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+/* App root fills viewport as a flex column: nav on top, main fills the rest */
+app-root {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+/* Main content area fills remaining space after nav */
+main.container-fluid {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+
 .flex-row {
   display: flex;
   flex-direction: row;

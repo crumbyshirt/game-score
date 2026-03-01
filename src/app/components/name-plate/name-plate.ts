@@ -14,4 +14,7 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 export class NamePlate {
   /** The name to display on the name plate. */
   name = input.required<string>();
+
+  /** Optional badge emoji to display in the top-right corner (desktop only). */
+  badge = input<string>('');
 }

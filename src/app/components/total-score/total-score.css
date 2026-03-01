@@ -1,12 +1,7 @@
 :host {
   display: block;
-  position: sticky;
-  bottom: 0;
-  background-color: var(--pico-background-color, #fff);
-  border-top: 1px solid var(--pico-muted-border-color, #ccc);
-  padding-top: 10px;
-  padding-bottom: 10px;
-  z-index: 100;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
 }
 
 .total-score-row {
