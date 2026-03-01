@@ -13,7 +13,7 @@ import { TotalScore } from '../total-score/total-score';
 export class ActiveGame {
   private appStateSvc = inject(AppState);
 
-  @ViewChild(ScoreGrid) protected scoreGrid!: ScoreGrid;
+  @ViewChild(ScoreGrid) protected scoreGrid: ScoreGrid | undefined;
   @ViewChild('scrollArea', { read: ElementRef }) private scrollArea!: ElementRef<HTMLElement>;
 
   confirmNewGame(): void {
@@ -23,7 +23,7 @@ export class ActiveGame {
   }
 
   addRound(): void {
-    this.scoreGrid.addRound();
+    this.scoreGrid?.addRound();
     // Wait one tick for Angular to render the new row, then scroll to bottom
     requestAnimationFrame(() => {
       const el = this.scrollArea?.nativeElement;

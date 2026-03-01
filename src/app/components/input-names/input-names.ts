@@ -9,7 +9,6 @@ import {
   ViewChild,
 } from '@angular/core';
 import { form, FormField } from '@angular/forms/signals';
-import { isEqual } from 'lodash';
 import { Player } from '../../models/Player';
 import { AppState } from '../../service/app-state/app-state';
 import { NamePlate } from '../name-plate/name-plate';
@@ -146,8 +145,13 @@ export class InputNames {
       }
     }
 
-    // Deep equality check: only update if the players map actually changed
-    if (!isEqual(current, merged)) {
+    // Only update if the names or their order changed
+    const currentKeys = [...current.keys()];
+    const mergedKeys = [...merged.keys()];
+    const unchanged =
+      currentKeys.length === mergedKeys.length &&
+      currentKeys.every((k, i) => k === mergedKeys[i]);
+    if (!unchanged) {
       this.appStateSvc.players.set(merged);
     }
   }
