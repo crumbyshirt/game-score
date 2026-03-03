@@ -1,0 +1,5 @@
+@if (text()) {
+  <div class="bubble" [class.side-left]="side() === 'left'" [class.side-right]="side() === 'right'">
+    {{ text() }}
+  </div>
+}

@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, ElementRef, inject, ViewChild } from '@angular/core';
 import { AppState } from '../../service/app-state/app-state';
+import { AnnouncementBubble } from '../announcement-bubble/announcement-bubble';
 import { ScoreGrid } from '../score-grid/score-grid';
 import { TotalScore } from '../total-score/total-score';
 
@@ -7,7 +8,7 @@ import { TotalScore } from '../total-score/total-score';
   selector: 'app-active-game',
   templateUrl: './active-game.html',
   styleUrls: ['./active-game.css'],
-  imports: [ScoreGrid, TotalScore],
+  imports: [ScoreGrid, TotalScore, AnnouncementBubble],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ActiveGame {
