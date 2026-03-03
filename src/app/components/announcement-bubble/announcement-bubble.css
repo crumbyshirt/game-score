@@ -1,0 +1,102 @@
+.bubble {
+  position: fixed;
+  bottom: 33vh;
+  z-index: 1000;
+  max-width: 260px;
+  padding: 0.75rem 1.25rem;
+  background: var(--pico-card-background-color, var(--pico-background-color, #fff));
+  border: 3px solid var(--pico-primary);
+  border-radius: 1.5rem;
+  font-weight: 700;
+  font-size: 1rem;
+  line-height: 1.4;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  color: var(--pico-color);
+}
+
+/* ── Bubble from the right side — tail points off-screen right ── */
+.bubble.side-right {
+  right: 0.5rem;
+  animation:
+    slide-in-right 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards,
+    fade-out 0.3s ease-in 1.7s forwards;
+}
+
+/* Outer (border colour) triangle */
+.bubble.side-right::before {
+  content: '';
+  position: absolute;
+  left: 100%;
+  bottom: 16px;
+  border: 14px solid transparent;
+  border-left-color: var(--pico-primary);
+  border-right-width: 0;
+}
+
+/* Inner (fill colour) triangle */
+.bubble.side-right::after {
+  content: '';
+  position: absolute;
+  left: calc(100% - 3px);
+  bottom: 19px;
+  border: 11px solid transparent;
+  border-left-color: var(--pico-card-background-color, var(--pico-background-color, #fff));
+  border-right-width: 0;
+}
+
+/* ── Bubble from the left side — tail points off-screen left ── */
+.bubble.side-left {
+  left: 0.5rem;
+  animation:
+    slide-in-left 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards,
+    fade-out 0.3s ease-in 1.7s forwards;
+}
+
+/* Outer (border colour) triangle */
+.bubble.side-left::before {
+  content: '';
+  position: absolute;
+  right: 100%;
+  bottom: 16px;
+  border: 14px solid transparent;
+  border-right-color: var(--pico-primary);
+  border-left-width: 0;
+}
+
+/* Inner (fill colour) triangle */
+.bubble.side-left::after {
+  content: '';
+  position: absolute;
+  right: calc(100% - 3px);
+  bottom: 19px;
+  border: 11px solid transparent;
+  border-right-color: var(--pico-card-background-color, var(--pico-background-color, #fff));
+  border-left-width: 0;
+}
+
+@keyframes slide-in-right {
+  from {
+    transform: translateX(110%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-in-left {
+  from {
+    transform: translateX(-110%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fade-out {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
