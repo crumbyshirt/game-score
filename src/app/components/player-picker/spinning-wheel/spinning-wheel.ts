@@ -164,18 +164,18 @@ export class SpinningWheel {
     // Pick a random winner
     const winnerIndex = Math.floor(Math.random() * names.length);
 
-    // Calculate target rotation: the pointer is at the top (3π/2 or -π/2 position).
+    // Calculate target rotation: the pointer is at the top (3π/2 position).
     // We want the winner segment centered under the pointer.
-    // The segment center is at winnerIndex * segmentAngle + segmentAngle/2 from 0.
-    // We need currentRotation + totalSpin to place that segment at the top (3π/2).
+    // Compute the minimum positive delta from currentRotation to align the winner at the top,
+    // accounting for whatever residual rotation currentRotation already has.
     const winnerMidAngle = winnerIndex * segmentAngle + segmentAngle / 2;
-    const targetSegmentAtTop = (3 * Math.PI) / 2 - winnerMidAngle;
+    let alignment = ((3 * Math.PI) / 2 - winnerMidAngle - this.currentRotation) % (2 * Math.PI);
+    if (alignment < 0) alignment += 2 * Math.PI;
 
     // Add extra full rotations (4-7 turns) for visual effect
     const extraTurns = (4 + Math.floor(Math.random() * 4)) * 2 * Math.PI;
-    const targetRotation = this.currentRotation + extraTurns + targetSegmentAtTop;
+    const targetRotation = this.currentRotation + extraTurns + alignment;
 
-    // Normalize so final rotation is positive and wraps correctly
     const totalSpin = targetRotation - this.currentRotation;
     const startRotation = this.currentRotation;
 
