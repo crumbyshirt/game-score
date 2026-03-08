@@ -2,8 +2,16 @@
 <section aria-labelledby="active-game-heading" class="active-game">
   <div class="game-header" [class.game-header--hidden]="scoreGrid?.isScrolled()">
     <h1 id="active-game-heading">Active Game</h1>
+    @if (sessionCode()) {
+      <span class="session-code" title="Share this code to let others join">
+        Code: <strong>{{ sessionCode() }}</strong>
+      </span>
+    }
     <button class="outline secondary new-game-btn" (click)="confirmNewGame()">New Game</button>
   </div>
+  @if (loading()) {
+    <p class="loading-msg" aria-live="polite">Loading session…</p>
+  }
   <app-score-grid #scrollArea class="game-scroll-area" />
   <div class="game-footer">
     <button class="add-round-btn" (click)="addRound()">+</button>

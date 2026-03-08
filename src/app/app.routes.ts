@@ -1,16 +1,27 @@
 import { Routes } from '@angular/router';
 
 export const routes: Routes = [
-  // Default: start at player input
-  { path: '', pathMatch: 'full', redirectTo: 'players' },
+  // Home: create or join a game session
+  { path: '', pathMatch: 'full', redirectTo: 'home' },
 
-  // Player input names feature
+  {
+    path: 'home',
+    loadComponent: () => import('./components/home/home').then((m) => m.Home),
+  },
+
+  // Player input names feature (solo play)
   {
     path: 'players',
     loadComponent: () => import('./components/input-names/input-names').then((m) => m.InputNames),
   },
 
-  // Active game display feature
+  // Active multiplayer game session
+  {
+    path: 'game/:code',
+    loadComponent: () => import('./components/active-game/active-game').then((m) => m.ActiveGame),
+  },
+
+  // Active solo game (no code)
   {
     path: 'game',
     loadComponent: () => import('./components/active-game/active-game').then((m) => m.ActiveGame),
@@ -23,6 +34,6 @@ export const routes: Routes = [
       import('./components/player-picker/player-picker').then((m) => m.PlayerPicker),
   },
 
-  // Fallback to player input
-  { path: '**', redirectTo: 'players' },
+  // Fallback to home
+  { path: '**', redirectTo: 'home' },
 ];

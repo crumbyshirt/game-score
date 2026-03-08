@@ -1,0 +1,69 @@
+.home {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 1rem;
+  gap: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.home__title {
+  font-size: 2.5rem;
+  text-align: center;
+  margin-bottom: 0;
+}
+
+.home__cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: center;
+  width: 100%;
+}
+
+.home__card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1.5rem;
+  border: 1px solid var(--pico-muted-border-color, #ddd);
+  border-radius: 0.5rem;
+  flex: 1;
+  min-width: 260px;
+  max-width: 340px;
+}
+
+.home__desc {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--pico-muted-color, #666);
+}
+
+.home__textarea {
+  width: 100%;
+  resize: vertical;
+  font-family: inherit;
+}
+
+.home__code-input {
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  font-size: 1.5rem;
+  text-align: center;
+  width: 100%;
+}
+
+.home__btn {
+  width: 100%;
+}
+
+.home__error {
+  color: var(--pico-del-color, #c0392b);
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+.home__solo {
+  margin-top: 1rem;
+}

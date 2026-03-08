@@ -1,6 +1,7 @@
 import { effect, inject, Injectable, signal } from '@angular/core';
 import { Player } from '../../models/Player';
 import { BrowserStorage } from '../browser-storage/browser-storage';
+import { FirebaseService } from '../firebase/firebase.service';
 
 /** Maintains the global application state */
 @Injectable({
@@ -8,6 +9,7 @@ import { BrowserStorage } from '../browser-storage/browser-storage';
 })
 export class AppState {
   private browserStorageSvc = inject(BrowserStorage);
+  private firebaseSvc = inject(FirebaseService);
 
   /** Map of players by name
    * Default players are provided for first-time users
@@ -18,6 +20,9 @@ export class AppState {
       ['Player 2', { name: 'Player 2', score: new Map<number, number>() }],
     ])
   );
+
+  /** The active multiplayer session code, or null for solo play */
+  readonly sessionCode = signal<string | null>(null);
 
   constructor() {
     this.loadPlayers();
@@ -43,5 +48,33 @@ export class AppState {
       reset.set(name, { name, score: new Map<number, number>() });
     }
     this.players.set(reset);
+  }
+
+  /**
+   * Updates a score locally and syncs to Firebase if in a session.
+   * Use this instead of directly mutating players for score changes.
+   */
+  updateScore(playerName: string, round: number, score: number | null): void {
+    const current = this.players();
+    const player = current.get(playerName);
+    if (!player) return;
+    if (!player.score) {
+      player.score = new Map<number, number | null>();
+    }
+    player.score.set(round, score);
+    this.players.set(new Map(current));
+
+    const code = this.sessionCode();
+    if (code) {
+      this.firebaseSvc.updateScore(code, playerName, round, score);
+    }
+  }
+
+  /**
+   * Updates players from a remote Firebase snapshot.
+   * Does NOT trigger a Firebase write (prevents sync loops).
+   */
+  setPlayersFromRemote(remoteMap: Map<string, Player>): void {
+    this.players.set(remoteMap);
   }
 }

@@ -1,0 +1,65 @@
+<main class="home">
+  <h1 class="home__title">Game Score</h1>
+
+  <div class="home__cards">
+    <!-- Create Game -->
+    <section class="home__card" aria-labelledby="create-heading">
+      <h2 id="create-heading">Create Game</h2>
+      <p class="home__desc">Enter player names (one per line) to start a new shared session.</p>
+      <textarea
+        class="home__textarea"
+        rows="5"
+        placeholder="Player 1&#10;Player 2&#10;Player 3"
+        aria-label="Player names, one per line"
+        [value]="namesText()"
+        (input)="namesText.set($any($event.target).value)"
+      ></textarea>
+      <button
+        class="home__btn"
+        (click)="createGame()"
+        [disabled]="creating()"
+        aria-busy="{{ creating() }}"
+      >
+        @if (creating()) {
+          Creating…
+        } @else {
+          Create Game
+        }
+      </button>
+    </section>
+
+    <!-- Join Game -->
+    <section class="home__card" aria-labelledby="join-heading">
+      <h2 id="join-heading">Join Game</h2>
+      <p class="home__desc">Enter the 4-character code shared by the game creator.</p>
+      <input
+        class="home__code-input"
+        type="text"
+        maxlength="4"
+        placeholder="X7KQ"
+        aria-label="4-character join code"
+        [value]="joinCode()"
+        (input)="onJoinCodeInput($event)"
+      />
+      @if (joinError()) {
+        <p class="home__error" role="alert">{{ joinError() }}</p>
+      }
+      <button
+        class="home__btn"
+        (click)="joinGame()"
+        [disabled]="joining()"
+        aria-busy="{{ joining() }}"
+      >
+        @if (joining()) {
+          Joining…
+        } @else {
+          Join Game
+        }
+      </button>
+    </section>
+  </div>
+
+  <div class="home__solo">
+    <button class="outline secondary" (click)="playSolo()">Play Solo (local only)</button>
+  </div>
+</main>

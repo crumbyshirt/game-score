@@ -26,6 +26,23 @@
   flex-shrink: 0;
 }
 
+.session-code {
+  font-size: 0.85rem;
+  color: var(--pico-muted-color, #666);
+  white-space: nowrap;
+}
+
+.session-code strong {
+  letter-spacing: 0.15em;
+  color: var(--pico-color, inherit);
+}
+
+.loading-msg {
+  text-align: center;
+  padding: 1rem;
+  color: var(--pico-muted-color, #666);
+}
+
 .new-game-btn {
   padding: 0.25rem 0.75rem;
   font-size: 0.85rem;
