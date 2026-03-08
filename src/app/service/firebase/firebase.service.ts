@@ -6,6 +6,7 @@ import {
   set,
   get,
   onValue,
+  update,
   Database,
 } from 'firebase/database';
 import { Observable } from 'rxjs';

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { AppState } from '../../service/app-state/app-state';
 import { GridBox } from '../grid-box/grid-box';
 import { NamePlate } from '../name-plate/name-plate';
