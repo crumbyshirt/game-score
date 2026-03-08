@@ -2,9 +2,18 @@
   <ul>
     <li>
       <strong>{{ title() }}</strong>
+      @if (sessionCode()) {
+        <span class="nav-session-code">{{ sessionCode() }}</span>
+      }
     </li>
   </ul>
   <ul class="nav-links">
+    <li>
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" ariaCurrentWhenActive="page">
+        <span class="nav-icon" aria-hidden="true">&#127968;</span>
+        <span class="nav-label">Home</span>
+      </a>
+    </li>
     <li>
       <a routerLink="/players" routerLinkActive="active" ariaCurrentWhenActive="page">
         <span class="nav-icon" aria-hidden="true">&#9998;</span>

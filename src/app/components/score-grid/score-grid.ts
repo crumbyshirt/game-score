@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { AppState } from '../../service/app-state/app-state';
 import { GridBox } from '../grid-box/grid-box';
 import { NamePlate } from '../name-plate/name-plate';
@@ -20,8 +20,8 @@ export class ScoreGrid {
   /** The players to display in the grid */
   players = this.appStateSvc.players;
 
-  /** Track the minimum number of rounds to display */
-  minRounds = signal(1);
+  /** Minimum number of rounds to display, synced via AppState */
+  minRounds = this.appStateSvc.minRounds;
 
   /** Track whether the grid has scrolled (used by parent and for compact name plates) */
   isScrolled = signal(false);
@@ -91,6 +91,6 @@ export class ScoreGrid {
   }
 
   addRound(): void {
-    this.minRounds.set(this.rounds().length + 1);
+    this.appStateSvc.setMinRounds(this.rounds().length + 1);
   }
 }

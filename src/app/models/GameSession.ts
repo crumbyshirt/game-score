@@ -2,5 +2,6 @@
 export interface GameSession {
   createdAt: number;
   players: string[];
+  minRounds: number;
   scores: Record<string, Record<string, number | null>>;
 }

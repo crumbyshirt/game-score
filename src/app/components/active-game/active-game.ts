@@ -10,7 +10,7 @@ import {
   signal,
   ViewChild,
 } from '@angular/core';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Player } from '../../models/Player';
 import { GameSession } from '../../models/GameSession';
@@ -24,7 +24,7 @@ import { TotalScore } from '../total-score/total-score';
   selector: 'app-active-game',
   templateUrl: './active-game.html',
   styleUrls: ['./active-game.css'],
-  imports: [ScoreGrid, TotalScore, AnnouncementBubble, RouterLink],
+  imports: [ScoreGrid, TotalScore, AnnouncementBubble],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ActiveGame implements OnInit, OnDestroy {
@@ -56,6 +56,7 @@ export class ActiveGame implements OnInit, OnDestroy {
           this.zone.run(() => {
             this.loading.set(false);
             this.appStateSvc.setPlayersFromRemote(this.sessionToPlayerMap(session));
+            this.appStateSvc.setMinRoundsFromRemote(session.minRounds ?? 1);
           });
         },
         error: () => {
@@ -87,7 +88,8 @@ export class ActiveGame implements OnInit, OnDestroy {
 
   private sessionToPlayerMap(session: GameSession): Map<string, Player> {
     const map = new Map<string, Player>();
-    const playerNames = session.players ?? [];
+    const raw = session.players ?? [];
+    const playerNames: string[] = Array.isArray(raw) ? raw : Object.values(raw);
     for (const name of playerNames) {
       const rawScores = session.scores?.[name] ?? {};
       const scoreMap = new Map<number, number | null>(

@@ -24,6 +24,9 @@ export class AppState {
   /** The active multiplayer session code, or null for solo play */
   readonly sessionCode = signal<string | null>(null);
 
+  /** Minimum number of rounds to display in the score grid */
+  readonly minRounds = signal(1);
+
   constructor() {
     this.loadPlayers();
 
@@ -48,6 +51,26 @@ export class AppState {
       reset.set(name, { name, score: new Map<number, number>() });
     }
     this.players.set(reset);
+    this.minRounds.set(1);
+  }
+
+  /**
+   * Sets the minimum round count locally and syncs to Firebase if in a session.
+   */
+  setMinRounds(n: number): void {
+    this.minRounds.set(n);
+    const code = this.sessionCode();
+    if (code) {
+      void this.firebaseSvc.updateMinRounds(code, n);
+    }
+  }
+
+  /**
+   * Sets the minimum round count from a remote Firebase snapshot.
+   * Does NOT trigger a Firebase write.
+   */
+  setMinRoundsFromRemote(n: number): void {
+    this.minRounds.set(n);
   }
 
   /**

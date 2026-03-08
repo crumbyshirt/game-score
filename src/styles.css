@@ -40,6 +40,16 @@ main.container-fluid {
   display: none;
 }
 
+.nav-session-code {
+  display: inline-block;
+  margin-left: 0.5rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: var(--pico-primary);
+  vertical-align: middle;
+}
+
 .app-nav .nav-links a.active {
   color: var(--pico-primary);
   font-weight: 600;

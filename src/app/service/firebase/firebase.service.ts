@@ -6,7 +6,6 @@ import {
   set,
   get,
   onValue,
-  update,
   Database,
 } from 'firebase/database';
 import { Observable } from 'rxjs';
@@ -55,6 +54,7 @@ export class FirebaseService {
     const session: GameSession = {
       createdAt: Date.now(),
       players,
+      minRounds: 1,
       scores: {},
     };
     await set(ref(this.db, `games/${code}`), session);
@@ -108,6 +108,13 @@ export class FirebaseService {
    * Updates the player list for a session.
    */
   async updatePlayers(code: string, players: string[]): Promise<void> {
-    await update(ref(this.db, `games/${code.toUpperCase()}`), { players });
+    await set(ref(this.db, `games/${code.toUpperCase()}/players`), players);
+  }
+
+  /**
+   * Updates the minimum round count for a session.
+   */
+  async updateMinRounds(code: string, minRounds: number): Promise<void> {
+    await set(ref(this.db, `games/${code.toUpperCase()}/minRounds`), minRounds);
   }
 }
