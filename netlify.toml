@@ -1,0 +1,8 @@
+[build]
+  command = "node generate-env.mjs && npm run build -- --configuration production"
+  publish = "dist/game-score/browser"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
