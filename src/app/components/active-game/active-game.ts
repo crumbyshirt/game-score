@@ -4,12 +4,13 @@ import {
   computed,
   ElementRef,
   inject,
+  NgZone,
   OnDestroy,
   OnInit,
   signal,
   ViewChild,
 } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Player } from '../../models/Player';
 import { GameSession } from '../../models/GameSession';
@@ -23,13 +24,14 @@ import { TotalScore } from '../total-score/total-score';
   selector: 'app-active-game',
   templateUrl: './active-game.html',
   styleUrls: ['./active-game.css'],
-  imports: [ScoreGrid, TotalScore, AnnouncementBubble],
+  imports: [ScoreGrid, TotalScore, AnnouncementBubble, RouterLink],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ActiveGame implements OnInit, OnDestroy {
   private appStateSvc = inject(AppState);
   private firebaseSvc = inject(FirebaseService);
   private route = inject(ActivatedRoute);
+  private zone = inject(NgZone);
 
   @ViewChild(ScoreGrid) protected scoreGrid: ScoreGrid | undefined;
   @ViewChild('scrollArea', { read: ElementRef }) private scrollArea!: ElementRef<HTMLElement>;
@@ -51,11 +53,13 @@ export class ActiveGame implements OnInit, OnDestroy {
       this.loading.set(true);
       this.sessionSub = this.firebaseSvc.watchSession(upperCode).subscribe({
         next: (session: GameSession) => {
-          this.loading.set(false);
-          this.appStateSvc.setPlayersFromRemote(this.sessionToPlayerMap(session));
+          this.zone.run(() => {
+            this.loading.set(false);
+            this.appStateSvc.setPlayersFromRemote(this.sessionToPlayerMap(session));
+          });
         },
         error: () => {
-          this.loading.set(false);
+          this.zone.run(() => this.loading.set(false));
         },
       });
     }
