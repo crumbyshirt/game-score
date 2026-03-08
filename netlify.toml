@@ -2,6 +2,11 @@
   command = "node generate-env.mjs && npm run build -- --configuration production"
   publish = "dist/game-score/browser"
 
+[build.environment]
+  # Firebase keys are intentionally embedded in client-side bundles.
+  # Security is enforced by Firebase rules, not by keeping these values secret.
+  SECRETS_SCAN_OMIT_KEYS = "FIREBASE_API_KEY,FIREBASE_APP_ID,FIREBASE_AUTH_DOMAIN,FIREBASE_DATABASE_URL,FIREBASE_MESSAGING_SENDER_ID,FIREBASE_PROJECT_ID,FIREBASE_STORAGE_BUCKET"
+
 [[redirects]]
   from = "/*"
   to = "/index.html"
