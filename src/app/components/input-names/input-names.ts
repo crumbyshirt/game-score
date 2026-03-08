@@ -6,6 +6,7 @@ import {
   ElementRef,
   inject,
   signal,
+  untracked,
   ViewChild,
 } from '@angular/core';
 import { form, FormField } from '@angular/forms/signals';
@@ -59,14 +60,28 @@ export class InputNames {
   protected nameRow!: ElementRef<HTMLElement>;
 
   constructor() {
+    // Sync local textarea changes → app state + Firebase.
+    // Uses untracked() to read players so remote updates don't trigger this effect
+    // (preventing a feedback loop where remote → local → Firebase → remote → ...).
     effect(() => {
-      this.updateAppStateNames(this.names(), this.appStateSvc.players());
+      const names = this.names();
+      const current = untracked(() => this.appStateSvc.players());
+      this.syncNamesToAppState(names, current);
 
-      // Access the element only when available (after view init).
       const el = this.nameRow?.nativeElement;
       if (el) {
-        // Scroll to the far right smoothly.
         el.scrollTo({ left: el.scrollWidth, behavior: 'smooth' });
+      }
+    });
+
+    // Sync remote player changes → textarea.
+    // Runs when appStateSvc.players changes (e.g. from Firebase).
+    // Uses untracked() to read names() so it doesn't create a cycle with the effect above.
+    effect(() => {
+      const remotePlayers = [...this.appStateSvc.players().keys()];
+      const currentNames = untracked(() => this.names());
+      if (remotePlayers.join('\n') !== currentNames.join('\n')) {
+        this.text.set({ names: remotePlayers.join('\n') });
       }
     });
   }
@@ -116,43 +131,21 @@ export class InputNames {
     // Update the textarea to reflect the new order
     this.text.set({ names: reordered.join('\n') });
 
-    // Directly rebuild the players Map in the new order so it persists
-    const current = this.appStateSvc.players();
-    const reorderedMap = new Map<string, Player>();
-    for (const name of reordered) {
-      const existing = current.get(name);
-      if (existing) {
-        reorderedMap.set(name, existing);
-      }
-    }
-    this.appStateSvc.players.set(reorderedMap);
+    // Sync to app state + Firebase via updatePlayers
+    this.appStateSvc.updatePlayers(reordered);
   }
 
   /**
-   * Updates the app state with the new list of names.
-   * @param inputList list of names from the user input
-   * @param current player map in the app state
+   * Syncs local textarea names to app state (and Firebase if in a session).
+   * Only fires if names or their order actually changed.
    */
-  private updateAppStateNames(inputList: string[], current: Map<string, Player>) {
-    const merged = new Map<string, Player>();
-
-    for (const name of inputList) {
-      const existing = current.get(name);
-      if (existing) {
-        merged.set(name, existing);
-      } else {
-        merged.set(name, { name, score: new Map<number, number>() });
-      }
-    }
-
-    // Only update if the names or their order changed
+  private syncNamesToAppState(inputList: string[], current: Map<string, Player>) {
     const currentKeys = [...current.keys()];
-    const mergedKeys = [...merged.keys()];
     const unchanged =
-      currentKeys.length === mergedKeys.length &&
-      currentKeys.every((k, i) => k === mergedKeys[i]);
+      currentKeys.length === inputList.length &&
+      currentKeys.every((k, i) => k === inputList[i]);
     if (!unchanged) {
-      this.appStateSvc.players.set(merged);
+      this.appStateSvc.updatePlayers(inputList);
     }
   }
 }

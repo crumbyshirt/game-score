@@ -7,9 +7,15 @@
         Code: <strong>{{ sessionCode() }}</strong>
       </span>
     }
-    <button class="outline secondary new-game-btn" (click)="confirmNewGame()">New Game</button>
-    <a class="outline secondary home-btn" routerLink="/">⌂ Home</a>
+    <nav class="nav-buttons">
+      <a class="outline secondary nav-btn" routerLink="/">🏠 Home</a>
+      <button class="outline secondary nav-btn" (click)="confirmNewGame()">New Game</button>
+    </nav>
   </div>
+
+  <!-- Home button persists in top-right on small screens when header collapses -->
+  <a class="home-btn-mobile" routerLink="/" aria-label="Home">🏠</a>
+
   @if (loading()) {
     <p class="loading-msg" aria-live="polite">Loading session…</p>
   }

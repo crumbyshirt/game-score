@@ -71,6 +71,24 @@ export class AppState {
   }
 
   /**
+   * Updates the player list locally and syncs to Firebase if in a session.
+   * Use this for all local player add/remove/reorder changes.
+   */
+  updatePlayers(names: string[]): void {
+    const current = this.players();
+    const merged = new Map<string, Player>();
+    for (const name of names) {
+      merged.set(name, current.get(name) ?? { name, score: new Map<number, number>() });
+    }
+    this.players.set(merged);
+
+    const code = this.sessionCode();
+    if (code) {
+      void this.firebaseSvc.updatePlayers(code, names);
+    }
+  }
+
+  /**
    * Updates players from a remote Firebase snapshot.
    * Does NOT trigger a Firebase write (prevents sync loops).
    */

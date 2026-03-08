@@ -43,11 +43,23 @@
   color: var(--pico-muted-color, #666);
 }
 
-.new-game-btn {
+.nav-buttons {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.nav-btn {
   padding: 0.25rem 0.75rem;
   font-size: 0.85rem;
   margin: 0;
   white-space: nowrap;
+}
+
+/* Hidden on large screens — only shown on mobile when header collapses */
+.home-btn-mobile {
+  display: none;
 }
 
 /* The score grid scrolls independently */
@@ -73,6 +85,7 @@
 @media (max-width: 768px) {
   .active-game {
     padding: 0.5rem 0.5rem 0;
+    position: relative;
   }
 
   .game-header {
@@ -85,5 +98,25 @@
     max-height: 0;
     opacity: 0;
     margin-bottom: 0;
+  }
+
+  /* Hide the in-header Home link on mobile — replaced by the persistent button */
+  .nav-buttons a.nav-btn {
+    display: none;
+  }
+
+  /* Persistent Home button: always visible in top-right on mobile */
+  .home-btn-mobile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    font-size: 1.25rem;
+    line-height: 1;
+    padding: 0.2rem 0.4rem;
+    text-decoration: none;
+    z-index: 10;
   }
 }
