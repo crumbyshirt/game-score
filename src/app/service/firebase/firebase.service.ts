@@ -10,6 +10,7 @@ import {
   Database,
 } from 'firebase/database';
 import { Observable } from 'rxjs';
+import { DataSnapshot } from 'firebase/database';
 import { environment } from '../../../environments/environment';
 import { GameSession } from '../../models/GameSession';
 
@@ -77,13 +78,13 @@ export class FirebaseService {
       const sessionRef = ref(this.db, `games/${code.toUpperCase()}`);
       const unsubscribe = onValue(
         sessionRef,
-        (snapshot) => {
+        (snapshot: DataSnapshot) => {
           const data = snapshot.val();
           if (data) {
             observer.next(data as GameSession);
           }
         },
-        (error) => observer.error(error),
+        (error: Error) => observer.error(error),
       );
       return () => unsubscribe();
     });
