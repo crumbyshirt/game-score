@@ -35,5 +35,5 @@ export const environment = {
 };
 `;
 
-writeFileSync('src/environments/environment.prod.ts', content);
-console.log('Generated src/environments/environment.prod.ts');
+writeFileSync('src/environments/environment.ts', content);
+console.log('Generated src/environments/environment.ts');
